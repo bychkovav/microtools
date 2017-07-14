@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true,
+    "copyToOutput": {
+      "include": [
+        "nlog.config",
+        "appsettings.json",
+        "message_reaction_test.pnml"
+      ]
+    }
+  },
+
+  "dependencies": {
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.1.0"
+    },
+    "Platform.Utils.Package": "1.0.61"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50"
+    }
+  },
+
+  "publishOptions": {
+    "include": [
+      "nlog.config",
+      "appsettings.json",
+      "message_reaction_test.pnml"
+    ]
+  }
+}
+
