@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9CA65A2E-1B49-4251-9847-FDF50F6EE5DA}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Platform.Utils.Tests</RootNamespace>
+    <AssemblyName>Platform.Utils.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Cassandra, Version=2.7.0.0, Culture=neutral, PublicKeyToken=10b231fbfc8c4b4d, processorArchitecture=MSIL">
+      <HintPath>..\packages\CassandraCSharpDriver.2.7.3\lib\net40\Cassandra.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.5.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.5.9\lib\net45\Hangfire.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.Redis.StackExchange, Version=1.5.4.116, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Redis.StackExchange.1.5.4.116\lib\net45\Hangfire.Redis.StackExchange.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="kafka-net, Version=0.9.0.65, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\kafka-net.0.9.0.65\lib\net45\kafka-net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LZ4, Version=1.0.5.93, Culture=neutral, PublicKeyToken=fd2bda0a70c5a705, processorArchitecture=MSIL">
+      <HintPath>..\packages\lz4net.1.0.5.93\lib\net40-client\LZ4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=3.1.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.1.2\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.0.316.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.0.488\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DbTest.cs" />
+    <Compile Include="HangfireSendRetryScheduler.cs" />
+    <Compile Include="IoC\ServiceModule.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="RetryTest.cs" />
+    <Compile Include="IoC\DataModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="TestConsumer.cs" />
+    <Compile Include="TestService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Platform.Utils.Cassandra\Platform.Utils.Cassandra.csproj">
+      <Project>{a4ddbe2c-24d4-4250-a7cf-fab16c07f4cd}</Project>
+      <Name>Platform.Utils.Cassandra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Utils.Hangfire\Platform.Utils.Hangfire.csproj">
+      <Project>{86661EF6-6888-4CE6-B320-30F96FE20DCC}</Project>
+      <Name>Platform.Utils.Hangfire</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Utils.Ioc\Platform.Utils.IoC.csproj">
+      <Project>{5feb9e21-36ab-4202-80c2-5eaea87186c5}</Project>
+      <Name>Platform.Utils.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Utils.Kafka\Platform.Utils.Kafka.csproj">
+      <Project>{23c7b9b4-8c73-423d-8ed1-deea76d66e05}</Project>
+      <Name>Platform.Utils.Kafka</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Utils.NLog\Platform.Utils.NLog.csproj">
+      <Project>{d2d752bb-9c64-4916-9bd0-9792b55f14b2}</Project>
+      <Name>Platform.Utils.NLog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Utils.Owin\Platform.Utils.Owin.csproj">
+      <Project>{a61da365-240e-498c-98d6-16f486770d70}</Project>
+      <Name>Platform.Utils.Owin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Utils.ServiceBus.CassandraRetry\Platform.Utils.ServiceBus.CassandraRetry.csproj">
+      <Project>{23b5aab4-43bd-4cc0-bfff-3bca1ece091c}</Project>
+      <Name>Platform.Utils.ServiceBus.CassandraRetry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Utils.ServiceBus\Platform.Utils.ServiceBus.csproj">
+      <Project>{c5a519a5-3ff6-4f44-b3b0-cef18bddcd43}</Project>
+      <Name>Platform.Utils.ServiceBus</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

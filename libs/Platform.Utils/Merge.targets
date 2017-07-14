@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Libraries Include="Platform.Utils.Owin"/>
+    <Libraries Include="Platform.Utils.ServiceBus.CassandraRetry"/>
+    <Libraries Include="Platform.Utils.ServiceBus"/>
+    <Libraries Include="Platform.Utils.Domain"/>
+    <Libraries Include="Platform.Utils.IoC"/>
+    <Libraries Include="Platform.Utils.Cassandra"/>
+    <Libraries Include="Platform.Utils.Hangfire"/>
+    <Libraries Include="Platform.Utils.Json"/>
+    <Libraries Include="Platform.Utils.Kafka"/>
+    <Libraries Include="Platform.Utils.MongoDb"/>
+    <Libraries Include="Platform.Utils.Nhibernate"/>
+    <Libraries Include="Platform.Utils.NLog"/>
+    <Libraries Include="Platform.Utils.Redis"/>
+    <Libraries Include="Platform.Utils.Rpc" />
+    <Libraries Include="Platform.Utils.Events.Contracts" />
+    <Libraries Include="Platform.Utils.Events.Data" />
+    <Libraries Include="Platform.Utils.Events.Domain" />
+    <Libraries Include="Platform.Utils.Events.Manager" />
+    <Libraries Include="Platform.Utils.Events.QueryGenerator" />
+    <Libraries Include="Platform.Utils.Events.QueryParser" />
+    <Libraries Include="Platform.Utils.Events.QueryParser.Domain" />
+    <Libraries Include="Platform.Utils.Events.ScriptEngine" />
+    <Libraries Include="Platform.Utils.Grpc" />
+    <Libraries Include="Platform.Utils.TransactionCache" />
+  </ItemGroup>
+  <Target Name="BeforeBuild" >
+    <CallTarget Targets="ILMerge" />
+  </Target>
+  <Target Name="ILMerge">
+    <!--<Exec Command="CALL $(ProjectDir)ILMerge\ILMerge.exe /closed @(Libraries->'$(SolutionDir)%(Identity)\bin\$(Configuration)\%(Identity).dll', ' ') /out:$(ProjectDir)\bin\$(Configuration)\Platform.Utils.dll" ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+    <Message Importance="High" Text="$(OutputOfExec)"></Message>-->
+    <BuildPackagesConfig PackageConfigPath="$(MSBuildProjectDirectory)\packages.config" LibrariesPackagesConfigs="@(Libraries->'..\%(Identity)\packages.config')" />
+  </Target>
+  <UsingTask TaskName="BuildPackagesConfig" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <LibrariesPackagesConfigs ParameterType="System.String[]" Required="true" />
+      <PackageConfigPath ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.Xml" />
+      <Reference Include="System.Xml.Linq" />
+      <Using Namespace="System" />
+      <Using Namespace="System.Collections.Generic" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Linq" />
+      <Using Namespace="System.Xml.Linq" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[ 
+            try
+            {
+            Console.WriteLine("asdadadsadasdad");
+			          if (!File.Exists(PackageConfigPath))
+                {
+                    return true;
+                }
+
+                var xml = XDocument.Load(PackageConfigPath);
+                if (xml.Root == null)
+                {
+                    throw new Exception("no config path");
+                }
+
+                List<XElement> items = new List<XElement>();
+                foreach (var libPackageConfig in LibrariesPackagesConfigs)
+                {
+                    if (!File.Exists(libPackageConfig))
+                    {
+                        continue;
+                    }
+                
+                    var libPackage = XDocument.Load(libPackageConfig);
+                    if (libPackage.Root == null)
+                    {
+                        throw new Exception("no packages config root");
+                    }
+
+                    var packages = libPackage.Root.Descendants("package");
+                    items.AddRange(packages);
+                }
+
+                var filteredItems = items.Select(
+                    x =>
+                        new
+                        {
+                            id = x.Attribute("id").Value,
+                            version = x.Attribute("version").Value,
+                            targetFramework = x.Attribute("targetFramework").Value
+                        }).GroupBy(x => x.id).Select(x => x.OrderByDescending(y => y.version).First()).ToList();
+
+                xml.Root.Descendants().Remove();
+                
+                foreach (var pack in filteredItems)
+                {
+                    xml.Root.Add(new XElement("package", new XAttribute("id", pack.id),
+                        new XAttribute("version", pack.version),
+                        new XAttribute("targetFramework", pack.targetFramework)));
+                }
+                xml.Save(PackageConfigPath);
+            }
+            catch(Exception ex)
+            {
+              throw new Exception(string.Format("Exception inside: {0}",ex));
+            }
+  ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+</Project>

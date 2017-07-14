@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package Platform.Grpc;
+
+// Interface exported by the server.
+service RemoteService {
+  // A simple RPC.
+  rpc RemoteCall(RpcRequest) returns (RpcResponse) {}
+}
+
+//An RPC message used for requests and reponses
+message RpcRequest {
+ string Code = 1;
+ string Body = 2;
+}
+//An RPC message used for requests and reponses
+message RpcResponse {
+ string Code = 1;
+ string Body = 2;
+ repeated ErrorInfo Errors = 3;
+}
+
+message ErrorInfo {
+ string Key  = 1;
+ string ErrorMessage  = 2;
+}
